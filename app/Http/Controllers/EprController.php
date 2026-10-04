@@ -2,15 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 class EprController extends Controller
 {
     public function index()
     {
-        $epreuves = [
-            ['numero' => 1001, 'date' => '23/09/2019', 'lieu' => 110],
-            ['numero' => 1002, 'date' => '24/09/2019', 'lieu' => 112],
-        ];
+        $epreuves = DB::table('epreuves')->get();
 
         return view('affEpr')->with('epreuves', $epreuves);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'numepreuve' => 'required|integer|unique:epreuves,numepreuve',
+            'datepreuve' => 'required|date',
+            'lieu'       => 'required',
+        ]);
+
+        DB::table('epreuves')->insert([
+            'numepreuve' => $request->numepreuve,
+            'datepreuve' => $request->datepreuve,
+            'lieu'       => $request->lieu,
+        ]);
+
+        return redirect('/epreuve');
     }
 }

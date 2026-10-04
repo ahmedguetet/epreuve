@@ -9,5 +9,7 @@ Route::get('/', function () {
 });
 
 Route::get('/matiere', [MatController::class, 'index']);
+Route::post('/matiere', [MatController::class, 'store']);
 
 Route::get('/epreuve', [EprController::class, 'index']);
+Route::post('/epreuve', [EprController::class, 'store']);
